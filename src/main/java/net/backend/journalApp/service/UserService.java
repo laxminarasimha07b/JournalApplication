@@ -3,6 +3,8 @@ package net.backend.journalApp.service;
 import net.backend.journalApp.entity.User;
 import net.backend.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,16 +21,21 @@ public class UserService {
     private UserRepository userRepository;
 
     private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    /*public void saveEntry(User user){
-        userRepository.save(user);
-    }*/
+    public boolean saveNewEntry(User user){
 
-    public void saveNewEntry(User user){
+        try {
+            user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+            return true;
+        }
+        catch (Exception e){
+            logger.info("Ehhhhhhhhhh.........");
+            return false;
+        }
 
-        user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
-        userRepository.save(user);
 
     }
 

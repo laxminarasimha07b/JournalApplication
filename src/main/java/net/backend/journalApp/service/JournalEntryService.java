@@ -1,5 +1,6 @@
 package net.backend.journalApp.service;
 
+
 import net.backend.journalApp.entity.JournalEntry;
 import net.backend.journalApp.entity.User;
 import net.backend.journalApp.repository.JournalEntryRepository;
@@ -8,18 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+
 @Component
 public class JournalEntryService {
+
 
     @Autowired
     private JournalEntryRepository journalEntryRepository;
 
     @Autowired
     private UserService userService;
+
+
 
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName){
@@ -32,6 +38,7 @@ public class JournalEntryService {
             userService.saveUser(user);
         }
         catch (Exception e){
+
             throw new RuntimeException("An error occurred while saving the entry...",e);
         }
 
